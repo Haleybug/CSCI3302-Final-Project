@@ -4,9 +4,14 @@
 
 
 ### sudo apt-get install python-tk
-### pip install python-tk
 
-#import Tkinter
+
+#import Camera_Interface
+#import Maze_Generation
+#import Maze_Solver
+#import Image_Processor
+#import Coordinate_Converter
+
 from Tkinter import *
  
 
@@ -32,7 +37,7 @@ frame.pack()
 botframe = Frame(root) 
 botframe.pack(side = BOTTOM) 
 
-redb = Button(frame, text = 'Record Maze', fg ='red') 
+redb = Button(frame, text = 'Solve Maze', fg ='red') 
 redb.pack(side = LEFT) 
 redb.config(command = rec_mz)
 
