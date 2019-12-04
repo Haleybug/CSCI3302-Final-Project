@@ -1,0 +1,28 @@
+sudo apt-get update
+
+sudo apt-get install git gazebo9 ros-melodic-gazebo-ros-control ros-melodic-gazebo-ros-pkgs ros-melodic-ros-control ros-melodic-control-toolbox ros-melodic-realtime-tools ros-melodic-ros-controllers ros-melodic-xacro python-wstool ros-melodic-tf-conversions ros-melodic-kdl-parser python-argparse python-vcstools python-rosdep ros-melodic-control-msgs ros-melodic-joystick-drivers ros-melodic-tf2-ros ros-melodic-rviz ros-melodic-cv-bridge ros-melodic-actionlib ros-melodic-actionlib-msgs ros-melodic-dynamic-reconfigure ros-melodic-trajectory-msgs ros-melodic-rospy-message-converter ros-melodic-effort-controllers
+
+Download sawyer-sim.rosinstall from the Moodle into your ROS Workspace/src directory
+
+From your ROS workspace:
+source devel/setup.bash
+cd src
+wstool init
+wstool merge sawyer-sim.rosinstall
+wstool update
+
+Build the software:
+caktin_make
+
+Setup your Intera (Sawyer software) Environment in your ROS workspace:
+roscd
+cp src/intera_sdk/intera.sh ./
+
+Run the simulator:
+./intera.sh sim
+roslaunch sawyer_gazebo sawyer_world.launch
+
+
+*You may have to add the following line to your .bashrc
+Add to .bashrc:
+    export DISPLAY=:1.0
