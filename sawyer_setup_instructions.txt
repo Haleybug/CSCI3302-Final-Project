@@ -1,0 +1,39 @@
+# Step 0: Create a user account for your team on either the Black desktop or the Orange desktop next to it. (Add your team name to the piece of paper on the desk so others can see how many teams are using that machine for load balancing purposes)
+# Step 0a: Log in to the 'cairo' username, with password 'cairo'.
+# Step 0b: Hit the windows key and search for users
+# Step 0c: Click 'Unlock' in the top right
+# Step 0d: Click 'Add User...' in the top right
+# Step 0e: Choose type 'Administrator', and give your teamname in the format "teamname3302"
+# Step 0f: Use password 'csci3302' for your account
+# Step 0g: Log in to your new account
+
+# Step 1: Download 'sawyer_setup.bash' from the Moodle and run it in a terminal (shortcut: Windows+T or CTRL+ALT+T depending on the machine) to set up ROS Melodic and the Sawyer control libraries (Sim + Actual Robot Controller)
+
+# Step 2: Customize the intera.sh script for your project:
+# Step 2a: Open the 'intera.sh' environment setup file
+cd ~/ros_ws
+gedit intera.sh
+
+# Step 2b: 
+#	Edit the 'robot_hostname' field and change it to reflect the robot you'll be using:
+#	  For sawyer-1 (Electric grippper): robot_hostname = "021708CP00107"
+#	  For sawyer-2 (Pneumatic grippper): robot_hostname = "021708CP00025"
+
+# Step 2c: Edit the 'your_ip' field: (default looks like 'your_ip="192.168.XXX.XXX"')
+# 	   Your computer's IP can be found using "ifconfig" command in the terminal. It'll likely be 192.168.something.something
+
+# Step 2d: Save and close your intera.sh script
+
+# Step 3: Run intera.sh to setup your environment to talk to the robot
+
+## IF RUNNING SIM ##
+cd ~/ros_ws
+./intera.sh sim
+roslaunch sawyer_gazebo sawyer_world.launch
+
+## IF RUNNING REAL ROBOT ##
+cd ~/ros_ws
+./intera.sh
+
+# Check to make sure you have the robot's topics showing with 'rostopic list'
+# verify the ros connectivity with sawyer using: https://sdk.rethinkrobotics.com/intera/Hello_Robot
