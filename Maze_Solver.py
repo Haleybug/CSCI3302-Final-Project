@@ -64,7 +64,7 @@ def solveMaze( maze, x_start, y_start, x_end, y_end, n):
         print("Solution doesn't exist"); 
         return []
       
-    printSolution(sol)
+    #printSolution(sol)
     coords = []
     #create list of coordinates for path
     for i in range(len(sol)):
