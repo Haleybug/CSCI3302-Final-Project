@@ -7,7 +7,7 @@
 
 
 #import Camera_Interface
-#import Maze_Generation
+from Maze_Generation import *
 #import Maze_Solver
 #import Image_Processor
 #import Coordinate_Converter
@@ -22,6 +22,8 @@ from geometry_msgs.msg import Pose, Point, Quaternion
 g_limb = None
 g_orientation_hand_down = None
 g_position_neutral = None
+maze_dim_m = 31
+maze_dim_n = 31
 
 
 def rec_mz():
@@ -34,11 +36,14 @@ def rec_mz():
 
 def gen_mz():
 	print("Generating a maze.\n")
-	#Maze_Generation()
+	generation_maze(maze_dim_m, maze_dim_n) # Takes in m,n for maze dimensions
 	#move_arm_gen_mz()
 
 def cal():
+	global maze_dim_m, maze_dim_n
 	print("Calibrating corners of maze.\n")
+	maze_dim_m = 31
+	maze_dim_n = 31
 
 def bbbbbbbb():
 	print("Doing nothing.\n")
@@ -52,6 +57,7 @@ def move_arm_gen_mz(xy_pos):
 	scale_factor = 1
 	grid_size = 1
 	half_gird = grid_size/2
+
 	g_limb.set_joint_position_speed(0.3)
 	g_limb.move_to_neutral()
 	target_pose = Pose()
@@ -293,13 +299,16 @@ def init():
 def move_arm_sol_mz(xy_pos):
 	global g_limb, g_position_neutral, g_orientation_hand_down
 	init()
+
+	scale_factor = 1
+
 	g_limb.set_joint_position_speed(0.3)
 	g_limb.move_to_neutral()
 	target_pose = Pose()
 	target_pose.position = copy.deepcopy(g_position_neutral)
 	target_pose.orientation = copy.deepcopy(g_orientation_hand_down)
-	target_pose.position.x = xy_pos[0][0]
-	target_pose.position.y = xy_pos[0][1]
+	target_pose.position.x = xy_pos[0][0]*scale_factor
+	target_pose.position.y = xy_pos[0][1]*scale_factor
 	target_pose.position.z = 1
 	target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
 	# The IK Service returns false if it can't find a joint configuration
@@ -310,8 +319,8 @@ def move_arm_sol_mz(xy_pos):
 	
 	xy_len = len(xy_pos)
 	for i in range(xy_len):
-		target_pose.position.x = xy_pos[i][0]
-		target_pose.position.y = xy_pos[i][1]
+		target_pose.position.x = xy_pos[i][0]*scale_factor
+		target_pose.position.y = xy_pos[i][1]*scale_factor
 		target_pose.position.z = -0.02
 		target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
 		# The IK Service returns false if it can't find a joint configuration
@@ -320,8 +329,8 @@ def move_arm_sol_mz(xy_pos):
 		return
 		g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
 
-	target_pose.position.x = xy_pos[xy_len][0]
-	target_pose.position.y = xy_pos[xy_len][1]
+	target_pose.position.x = xy_pos[xy_len][0]*scale_factor
+	target_pose.position.y = xy_pos[xy_len][1]*scale_factor
 	target_pose.position.z = 1
 	target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
 	# The IK Service returns false if it can't find a joint configuration
