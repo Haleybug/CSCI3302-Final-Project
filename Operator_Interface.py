@@ -45,9 +45,18 @@ def cal():
 	maze_dim_m = 31
 	maze_dim_n = 31
 
-def bbbbbbbb():
-	print("Doing nothing.\n")
+def ogripper():
+	rospy.init_node('sawyer_ogripper')
+	print("Openning gripper.\n")
+	publisher_open = rospy.Publisher('/cairo/sawyer_gripper_open', Int16, queue_size=10)	
+	publisher_open.publish()
 
+
+def cgripper():
+	rospy.init_node('sawyer_cgripper')
+	print("Closing gripper.\n")
+	publisher_close = rospy.Publisher('/cairo/sawyer_gripper_close', Int16, queue_size=10)
+	publisher_close.publish()
 
 
 def move_arm_gen_mz(xy_pos):
@@ -86,7 +95,7 @@ def move_arm_gen_mz(xy_pos):
 	xy_col_len = len(xy_pos[0])
 	for i in range(xy_row_len):
 		for j in range(xy_col_len - 1):
-			if xy_pos[i][j] == 1 and xy_pos[i][j+1] == 1 # Tuples???????????????
+			if xy_pos[i][j] == 1 and xy_pos[i][j+1] == 1: # Tuples???????????????
 				target_pose.position.x = i*scale_factor
 				target_pose.position.y = (j+1)*scale_factor + half_grid
 				target_pose.position.z = -0.02
@@ -96,7 +105,7 @@ def move_arm_gen_mz(xy_pos):
 					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
 				return
 				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
-			if xy_pos[i][j] == 0 and xy_pos[i][j+1] == 0 
+			if xy_pos[i][j] == 0 and xy_pos[i][j+1] == 0: 
 				target_pose.position.x = i*scale_factor
 				target_pose.position.y = (j+1)*scale_factor + half_grid
 				target_pose.position.z = 1
@@ -106,7 +115,7 @@ def move_arm_gen_mz(xy_pos):
 					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
 				return
 				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
-			if xy_pos[i][j] == 0 and xy_pos[i][j+1] == 1 
+			if xy_pos[i][j] == 0 and xy_pos[i][j+1] == 1:
 				target_pose.position.x = i*scale_factor
 				target_pose.position.y = (j+1)*scale_factor - half_grid
 				target_pose.position.z = 1
@@ -134,7 +143,7 @@ def move_arm_gen_mz(xy_pos):
 					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
 				return
 				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
-			if xy_pos[i][j] == 1 and xy_pos[i][j+1] == 0 
+			if xy_pos[i][j] == 1 and xy_pos[i][j+1] == 0:
 				target_pose.position.x = i*scale_factor
 				target_pose.position.y = j*scale_factor + half_grid
 				target_pose.position.z = 1
@@ -164,7 +173,7 @@ def move_arm_gen_mz(xy_pos):
 		g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
 	for j in range(xy_col_len):
 		for i in range(xy_row_len - 1):
-			if xy_pos[i][j] == 1 and xy_pos[i+1][j] == 1 # Tuples???????????????
+			if xy_pos[i][j] == 1 and xy_pos[i+1][j] == 1: # Tuples???????????????
 				target_pose.position.x = (i+1)*scale_factor + half_grid
 				target_pose.position.y = j*scale_factor
 				target_pose.position.z = -0.02
@@ -174,7 +183,7 @@ def move_arm_gen_mz(xy_pos):
 					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
 				return
 				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
-			if xy_pos[i][j] == 0 and xy_pos[i+1][j] == 0 
+			if xy_pos[i][j] == 0 and xy_pos[i+1][j] == 0: 
 				target_pose.position.x = (i+1)*scale_factor + half_grid
 				target_pose.position.y = j*scale_factor
 				target_pose.position.z = 1
@@ -184,7 +193,7 @@ def move_arm_gen_mz(xy_pos):
 					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
 				return
 				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
-			if xy_pos[i][j] == 0 and xy_pos[i+1][j] == 1 
+			if xy_pos[i][j] == 0 and xy_pos[i+1][j] == 1:
 				target_pose.position.x = (i+1)*scale_factor - half_grid
 				target_pose.position.y = j*scale_factor
 				target_pose.position.z = 1
@@ -212,7 +221,7 @@ def move_arm_gen_mz(xy_pos):
 					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
 				return
 				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
-			if xy_pos[i][j] == 1 and xy_pos[i+1][j] == 0 
+			if xy_pos[i][j] == 1 and xy_pos[i+1][j] == 0:
 				target_pose.position.x = i*scale_factor + half_grid
 				target_pose.position.y = j*scale_factor
 				target_pose.position.z = 1
@@ -367,9 +376,13 @@ def main():
 	blueb.pack(side = LEFT) 
 	blueb.config(command = cal)
 
-	blackb = Button(botframe, text ='Black', fg ='black') 
+	blackb = Button(botframe, text ='Open Gripper', fg ='black') 
 	blackb.pack(side = BOTTOM) 
-	blackb.config(command = bbbbbbbb)
+	blackb.config(command = ogripper)
+
+	blackb = Button(botframe, text ='Close Gripper', fg ='black') 
+	blackb.pack(side = BOTTOM) 
+	blackb.config(command = cgripper)
 
 	root.mainloop() 
 
