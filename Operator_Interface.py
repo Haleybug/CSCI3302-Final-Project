@@ -45,12 +45,195 @@ def bbbbbbbb():
 
 
 
-def move_arm_gen_mz():
+def move_arm_gen_mz(xy_pos):
 	global g_limb, g_position_neutral, g_orientation_hand_down
 	init()
+	
+	scale_factor = 1
+	grid_size = 1
+	half_gird = grid_size/2
 	g_limb.set_joint_position_speed(0.3)
 	g_limb.move_to_neutral()
 	target_pose = Pose()
+	target_pose.position = copy.deepcopy(g_position_neutral)
+	target_pose.orientation = copy.deepcopy(g_orientation_hand_down)
+	target_pose.position.x = 0
+	target_pose.position.y = 0 - half_grid
+	target_pose.position.z = 1
+	target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+	# The IK Service returns false if it can't find a joint configuration
+	if target_joint_angles is False:
+		rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+	return
+	g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+	target_pose.position.x = 0
+	target_pose.position.y = 0 - half_grid
+	target_pose.position.z = -0.02
+	target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+	# The IK Service returns false if it can't find a joint configuration
+	if target_joint_angles is False:
+		rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+	return
+	g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+	
+	xy_row_len = len(xy_pos)
+	xy_col_len = len(xy_pos[0])
+	for i in range(xy_row_len):
+		for j in range(xy_col_len - 1):
+			if xy_pos[i][j] == 1 and xy_pos[i][j+1] == 1 # Tuples???????????????
+				target_pose.position.x = i*scale_factor
+				target_pose.position.y = (j+1)*scale_factor + half_grid
+				target_pose.position.z = -0.02
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+			if xy_pos[i][j] == 0 and xy_pos[i][j+1] == 0 
+				target_pose.position.x = i*scale_factor
+				target_pose.position.y = (j+1)*scale_factor + half_grid
+				target_pose.position.z = 1
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+			if xy_pos[i][j] == 0 and xy_pos[i][j+1] == 1 
+				target_pose.position.x = i*scale_factor
+				target_pose.position.y = (j+1)*scale_factor - half_grid
+				target_pose.position.z = 1
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+				target_pose.position.x = i*scale_factor
+				target_pose.position.y = (j+1)*scale_factor - half_grid
+				target_pose.position.z = -0.02
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+				target_pose.position.x = i*scale_factor
+				target_pose.position.y = (j+1)*scale_factor + half_grid
+				target_pose.position.z = -0.02
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+			if xy_pos[i][j] == 1 and xy_pos[i][j+1] == 0 
+				target_pose.position.x = i*scale_factor
+				target_pose.position.y = j*scale_factor + half_grid
+				target_pose.position.z = 1
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+				target_pose.position.x = i*scale_factor
+				target_pose.position.y = (j+1)*scale_factor + half_grid
+				target_pose.position.z = 1
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+		target_pose.position.x = xy_row_len*scale_factor
+		target_pose.position.y = (xy_col_len+1)*scale_factor + half_grid
+		target_pose.position.z = 1
+		target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+		# The IK Service returns false if it can't find a joint configuration
+		if target_joint_angles is False:
+			rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+		return
+		g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+	for j in range(xy_col_len):
+		for i in range(xy_row_len - 1):
+			if xy_pos[i][j] == 1 and xy_pos[i+1][j] == 1 # Tuples???????????????
+				target_pose.position.x = (i+1)*scale_factor + half_grid
+				target_pose.position.y = j*scale_factor
+				target_pose.position.z = -0.02
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+			if xy_pos[i][j] == 0 and xy_pos[i+1][j] == 0 
+				target_pose.position.x = (i+1)*scale_factor + half_grid
+				target_pose.position.y = j*scale_factor
+				target_pose.position.z = 1
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+			if xy_pos[i][j] == 0 and xy_pos[i+1][j] == 1 
+				target_pose.position.x = (i+1)*scale_factor - half_grid
+				target_pose.position.y = j*scale_factor
+				target_pose.position.z = 1
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+				target_pose.position.x = (i+1)*scale_factor - half_grid
+				target_pose.position.y = j*scale_factor
+				target_pose.position.z = -0.02
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+				target_pose.position.x = (i+1)*scale_factor + half_grid
+				target_pose.position.y = j*scale_factor
+				target_pose.position.z = -0.02
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+			if xy_pos[i][j] == 1 and xy_pos[i+1][j] == 0 
+				target_pose.position.x = i*scale_factor + half_grid
+				target_pose.position.y = j*scale_factor
+				target_pose.position.z = 1
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+				target_pose.position.x = (i+1)*scale_factor + half_grid
+				target_pose.position.y = j*scale_factor
+				target_pose.position.z = 1
+				target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+				# The IK Service returns false if it can't find a joint configuration
+				if target_joint_angles is False:
+					rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+				return
+				g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
+		target_pose.position.x = (xy_row_len+1)*scale_factor + half_grid
+		target_pose.position.y = xy_col_len*scale_factor
+		target_pose.position.z = 1
+		target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
+		# The IK Service returns false if it can't find a joint configuration
+		if target_joint_angles is False:
+			rospy.logerr("Couldn't solve for position %s" % str(target_pose))
+		return
+		g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
 
 
 #def move_arm_gen_mz():
@@ -126,8 +309,7 @@ def move_arm_sol_mz(xy_pos):
 	g_limb.move_to_joint_positions(target_joint_angles, timeout=2)
 	
 	xy_len = len(xy_pos)
-	for i in range(0, xy_len):
-		target_pose = Pose()
+	for i in range(xy_len):
 		target_pose.position.x = xy_pos[i][0]
 		target_pose.position.y = xy_pos[i][1]
 		target_pose.position.z = -0.02
