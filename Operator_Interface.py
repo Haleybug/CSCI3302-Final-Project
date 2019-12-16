@@ -18,6 +18,7 @@ import rospy
 import intera_interface
 from sawyer_pykdl import sawyer_kinematics
 from geometry_msgs.msg import Pose, Point, Quaternion
+from std_msgs.msg import Empty
 
 g_limb = None
 g_orientation_hand_down = None
@@ -35,9 +36,11 @@ def rec_mz():
 	
 
 def gen_mz():
-	print("Generating a maze.\n")
-	generation_maze(maze_dim_m, maze_dim_n) # Takes in m,n for maze dimensions
-	#move_arm_gen_mz()
+	print("Generating a maze.")
+	maze = generate_maze(maze_dim_m, maze_dim_n) # Takes in m,n for maze dimensions
+	print(maze)
+	#move_arm_gen_mz(maze)
+	print("Done")
 
 def cal():
 	global maze_dim_m, maze_dim_n
@@ -46,22 +49,28 @@ def cal():
 	maze_dim_n = 31
 
 def ogripper():
-	rospy.init_node('sawyer_ogripper')
+	# rospy.init_node('sawyer_ogripper')
 	print("Openning gripper.\n")
-	publisher_open = rospy.Publisher('/cairo/sawyer_gripper_open', Int16, queue_size=10)	
-	publisher_open.publish()
+	# publisher_open = rospy.Publisher('/cairo/sawyer_gripper_open', Empty, queue_size=10)	
+	# publisher_open.publish()
+
+	gripper = intera_interface.Gripper()
+	gripper.open()
 
 
 def cgripper():
-	rospy.init_node('sawyer_cgripper')
+	# rospy.init_node('sawyer_cgripper')
 	print("Closing gripper.\n")
-	publisher_close = rospy.Publisher('/cairo/sawyer_gripper_close', Int16, queue_size=10)
-	publisher_close.publish()
+	# publisher_close = rospy.Publisher('/cairo/sawyer_gripper_close', Empty, queue_size=10)
+	# publisher_close.publish()
+
+	gripper = intera_interface.Gripper()
+	gripper.close()
 
 
 def move_arm_gen_mz(xy_pos):
 	global g_limb, g_position_neutral, g_orientation_hand_down
-	init()
+	# init()
 	
 	scale_factor = 1
 	grid_size = 1
@@ -292,6 +301,10 @@ def init():
 	rospy.init_node('sawyer_ik_setup')
 	g_limb = intera_interface.Limb('right')
 
+	gripper = intera_interface.Gripper()
+	gripper.open()
+
+
 	# This quaternion will have the hand face straight down (ideal for picking tasks)
 	g_orientation_hand_down = Quaternion()
 	g_orientation_hand_down.x = 0.704238785359
@@ -307,7 +320,7 @@ def init():
 
 def move_arm_sol_mz(xy_pos):
 	global g_limb, g_position_neutral, g_orientation_hand_down
-	init()
+	# init()
 
 	scale_factor = 1
 
@@ -354,8 +367,6 @@ def move_arm_sol_mz(xy_pos):
 
 
 
-
-
 def main():
 	root = Tk()
 	root.title('Maze Solving Control Panel')
@@ -388,4 +399,5 @@ def main():
 
 
 if __name__ == "__main__":
+	init()
 	main()
