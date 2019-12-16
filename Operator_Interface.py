@@ -376,13 +376,13 @@ def main():
 	blueb.pack(side = LEFT) 
 	blueb.config(command = cal)
 
-	blackb = Button(botframe, text ='Open Gripper', fg ='black') 
-	blackb.pack(side = BOTTOM) 
-	blackb.config(command = ogripper)
+	blackb_open = Button(botframe, text ='Open Gripper', fg ='black') 
+	blackb_open.pack(side = BOTTOM) 
+	blackb_open.config(command = ogripper)
 
-	blackb = Button(botframe, text ='Close Gripper', fg ='black') 
-	blackb.pack(side = BOTTOM) 
-	blackb.config(command = cgripper)
+	blackb_close = Button(botframe, text ='Close Gripper', fg ='black') 
+	blackb_close.pack(side = BOTTOM) 
+	blackb_close.config(command = cgripper)
 
 	root.mainloop() 
 
