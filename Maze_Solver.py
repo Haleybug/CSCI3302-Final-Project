@@ -1,13 +1,8 @@
 # Maze Solver algorithm
-
 # Michael Gini, Justin Davis, Scott Weygandt, Haley Drexel, Oscar Delgado
 
-def printSolution( sol ): 
-      
-    for i in sol: 
-        for j in i: 
-            print(str(j) + " ", end ="") 
-        print("")
+from Maze_Generation import *
+import numpy as np
         
 #check if it the coordinate is not a wall
 def isSafe( maze, x, y, n): 
@@ -64,7 +59,7 @@ def solveMaze( maze, x_start, y_start, x_end, y_end, n):
         print("Solution doesn't exist"); 
         return []
       
-    #printSolution(sol)
+    #print(np.array(sol))
     coords = []
     #create list of coordinates for path
     for i in range(len(sol)):
@@ -74,3 +69,18 @@ def solveMaze( maze, x_start, y_start, x_end, y_end, n):
 
     #return list of coordinates
     return coords
+
+'''
+if __name__ == "__main__":
+    maze = generate_maze(24, 24)
+    x_end = 0
+    y_end = 0
+    
+    for i in range(len(maze)):
+        for j in range(len(maze[0])):
+            if(maze[i][j]== 0):
+                x_end = i 
+                y_end = j
+    
+    print(solveMaze(maze, 0, 1, x_end, y_end, len(maze)))
+'''
