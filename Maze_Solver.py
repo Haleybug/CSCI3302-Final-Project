@@ -7,7 +7,7 @@ import numpy as np
 #check if it the coordinate is not a wall
 def isSafe( maze, x, y, n): 
       
-    if x >= 0 and x <= n and y >= 0 and y <= n and maze[x][y] == 0: 
+    if x >= 0 and x < n and y >= 0 and y < n and maze[x][y] == 0: 
         return True
       
     return False
@@ -23,7 +23,7 @@ def solveMazeUtil(maze, x, y, x_end, y_end, sol, n):
           
    
     if isSafe(maze, x, y, n) == True:
-        
+        print((x, y))
         sol[x][y] = 0
         #mark node has having already been visited
         maze[x][y] = 2
@@ -53,7 +53,7 @@ def solveMazeUtil(maze, x, y, x_end, y_end, sol, n):
 def solveMaze( maze, x_start, y_start, x_end, y_end, n): 
 
     #generate solution with all walls
-    sol = [ [ 1 for j in range(n) ] for i in range(n) ]
+    sol = [ [ 1 for j in range(len(maze)) ] for i in range(len(maze)) ]
       
     if solveMazeUtil(maze, x_start, y_start, x_end, y_end, sol, n ) == False: 
         print("Solution doesn't exist"); 

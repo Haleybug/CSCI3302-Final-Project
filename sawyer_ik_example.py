@@ -41,7 +41,7 @@ def main():
     target_pose.position = copy.deepcopy(g_position_neutral)
     target_pose.orientation = copy.deepcopy(g_orientation_hand_down)
 
-    target_pose.position.x += 0.2 # Add 20cm to the x axis position of the hand
+    target_pose.position.z = 0.0125 # Add 20cm to the x axis position of the hand
 
     # Call the IK service to solve for joint angles for the desired pose
     target_joint_angles = g_limb.ik_request(target_pose, "right_hand")
