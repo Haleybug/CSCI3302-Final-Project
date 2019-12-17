@@ -23,7 +23,7 @@ def solveMazeUtil(maze, x, y, x_end, y_end, sol, n):
           
    
     if isSafe(maze, x, y, n) == True:
-        print((x, y))
+        # print((x, y))
         sol[x][y] = 0
         #mark node has having already been visited
         maze[x][y] = 2

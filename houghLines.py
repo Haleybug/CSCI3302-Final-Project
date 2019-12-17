@@ -4,6 +4,8 @@ import numpy as np
 from scipy.linalg import solve
 from sklearn.cluster import KMeans
 
+maze = []
+
 def findSpacing(radii):
 
 	diff1 = [radii[i+1] - radii[i] for i in range(len(radii)-1)]
@@ -139,6 +141,10 @@ def lineIntersect(r1,c1,s1,r2,c2,s2):
 	#[-c1,c2] * [b] = r1*s1 - r2*s2
 
 	return([xs1-s1*x[0], ys1+c1*x[0]])
+
+def getMaze():
+	main()
+	return maze
 
 def main():
 
@@ -337,6 +343,8 @@ def main():
 	# cv2.drawContours(grid, [contour1, contour2], -1, (0,255,0), 1)
 
 	print(cells)
+
+	maze = cells
 
 	# cv2.imshow("res", result)
 	cv2.imshow("grid", grid)
