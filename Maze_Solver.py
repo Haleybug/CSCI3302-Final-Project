@@ -3,6 +3,7 @@
 
 from Maze_Generation import *
 import numpy as np
+import copy
         
 #check if it the coordinate is not a wall
 def isSafe( maze, x, y, n): 
@@ -69,6 +70,63 @@ def solveMaze( maze, x_start, y_start, x_end, y_end, n):
 
     #return list of coordinates
     return coords
+
+def isValid(maze,x,y,h,w):
+    if x < 0:
+        return False
+    if y < 0:
+        return False
+    if x >= w:
+        return False
+    if y >= h:
+        return False
+    return (maze[y][x] == 0)
+
+#Since all transitions have a cost of 1, BFS and djikstra are equivalent
+#coordinates are (x,y)
+def solveMaze2(maze, start, end, h, w):
+    explored = copy.copy(maze)
+
+    fringe = []
+    fringe.append((start, []))
+
+    while len(fringe) > 0:
+        node, path = fringe.pop()
+        if maze[node[1]][node[0]] == 1:
+            continue
+        maze[node[1]][node[0]] = 1
+
+        path.append(node)
+
+        if node == end:
+            return path
+
+        if isValid(maze, node[0], node[1]-1, h, w):
+            fringe.append(((node[0], node[1]-1), path))
+        if isValid(maze, node[0], node[1]+1, h, w):
+            fringe.append(((node[0], node[1]+1), path))
+        if isValid(maze, node[0]-1, node[1], h, w):
+            fringe.append(((node[0]-1, node[1]), path))
+        if isValid(maze, node[0]+1, node[1], h, w):
+            fringe.append(((node[0]+1, node[1]), path))
+
+
+
+maze = [[1,1,1,1,1,1,1,1,1],
+        [1,0,1,0,0,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,1,0,0,0,1],
+        [1,0,1,1,1,0,1,1,1],
+        [1,0,0,0,1,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1]]
+start = (1,1)
+end = (7,5)
+
+print(maze)
+
+path = solveMaze2(maze, start, end, 7, 9)
+
+print path
 
 '''
 if __name__ == "__main__":
