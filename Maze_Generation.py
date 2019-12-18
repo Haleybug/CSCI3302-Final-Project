@@ -72,10 +72,8 @@ def generate_maze(n, m):
     maze = maze.tolist()
 
     #show image of maze
-    '''
-    plt.imshow(maze, cmap=plt.cm.binary, interpolation='nearest')
-    plt.xticks([]), plt.yticks([])
-    plt.show()
-    '''
+    # plt.imshow(maze, cmap=plt.cm.binary, interpolation='nearest')
+    # plt.xticks([]), plt.yticks([])
+    # plt.show()
     
     return maze

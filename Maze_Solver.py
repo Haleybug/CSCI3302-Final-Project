@@ -99,34 +99,36 @@ def solveMaze2(maze, start, end, h, w):
         path.append(node)
 
         if node == end:
-            return path
+            sol = [(b,a) for a,b in path]
+            return sol
 
         if isValid(maze, node[0], node[1]-1, h, w):
-            fringe.append(((node[0], node[1]-1), path))
+            fringe.append(((node[0], node[1]-1), copy.copy(path)))
         if isValid(maze, node[0], node[1]+1, h, w):
-            fringe.append(((node[0], node[1]+1), path))
+            fringe.append(((node[0], node[1]+1), copy.copy(path)))
         if isValid(maze, node[0]-1, node[1], h, w):
-            fringe.append(((node[0]-1, node[1]), path))
+            fringe.append(((node[0]-1, node[1]), copy.copy(path)))
         if isValid(maze, node[0]+1, node[1], h, w):
-            fringe.append(((node[0]+1, node[1]), path))
+            fringe.append(((node[0]+1, node[1]), copy.copy(path)))
 
 
 
-maze = [[1,1,1,1,1,1,1,1,1],
-        [1,0,1,0,0,0,1,0,1],
-        [1,0,1,0,1,0,1,0,1],
-        [1,0,0,0,1,0,0,0,1],
-        [1,0,1,1,1,0,1,1,1],
-        [1,0,0,0,1,0,0,0,1],
-        [1,1,1,1,1,1,1,1,1]]
-start = (1,1)
-end = (7,5)
 
-print(maze)
+# maze = [[1,1,1,1,1,1,1,1,1],
+#         [1,0,1,0,0,0,1,0,1],
+#         [1,0,1,0,1,0,1,0,1],
+#         [1,0,0,0,1,0,0,0,1],
+#         [1,0,1,1,1,0,1,1,1],
+#         [1,0,0,0,1,0,0,0,1],
+#         [1,1,1,1,1,1,1,1,1]]
+# start = (1,1)
+# end = (7,5)
 
-path = solveMaze2(maze, start, end, 7, 9)
+# print(maze)
 
-print path
+# path = solveMaze2(maze, start, end, 7, 9)
+
+# print path
 
 '''
 if __name__ == "__main__":
