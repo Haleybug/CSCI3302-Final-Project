@@ -2,6 +2,8 @@
 
 # Michael Gini, Justin Davis, Scott Weygandt, Haley Drexel, Oscar Delgado
 
+# adapted from https://medium.com/100-days-of-algorithms/day-84-maze-generation-634aaca67e34
+
 
 import numpy as np
 import matplotlib.pyplot as plt
